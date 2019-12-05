@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CassandraDataLayer", "CassandraDataLayer\CassandraDataLayer.csproj", "{1771D94E-744E-40F2-9C83-5754817707A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentCarForm", "RentCarForm\RentCarForm.csproj", "{47ABFE20-5D3E-4838-B979-5446B06E90C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1771D94E-744E-40F2-9C83-5754817707A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1771D94E-744E-40F2-9C83-5754817707A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1771D94E-744E-40F2-9C83-5754817707A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1771D94E-744E-40F2-9C83-5754817707A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47ABFE20-5D3E-4838-B979-5446B06E90C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47ABFE20-5D3E-4838-B979-5446B06E90C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47ABFE20-5D3E-4838-B979-5446B06E90C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47ABFE20-5D3E-4838-B979-5446B06E90C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA2FB081-0F17-457D-A89D-5055A4511B3D}
+	EndGlobalSection
+EndGlobal
