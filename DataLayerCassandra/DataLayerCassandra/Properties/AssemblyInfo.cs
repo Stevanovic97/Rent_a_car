@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RentCarForm")]
+[assembly: AssemblyTitle("DataLayerCassandra")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RentCarForm")]
+[assembly: AssemblyProduct("DataLayerCassandra")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("47abfe20-5d3e-4838-b979-5446b06e90c3")]
+[assembly: Guid("ba8123fb-abd5-43c5-93e9-882f8744dc89")]
 
 // Version information for an assembly consists of the following four values:
 //

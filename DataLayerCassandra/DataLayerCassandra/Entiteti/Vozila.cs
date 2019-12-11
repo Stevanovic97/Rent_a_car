@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CassandraDataLayer.Entity
+namespace DataLayerCassandra.Entiteti
 {
-    public class Cars
+    public class Vozila
     {
-        public string id { get; set; }
+        public string id_vozila { get; set; }
+        public string tip { get; set; }
         public string naziv { get; set; }
         public string model { get; set; }
     }

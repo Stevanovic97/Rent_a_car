@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{47ABFE20-5D3E-4838-B979-5446B06E90C3}</ProjectGuid>
+    <ProjectGuid>{3BC851A9-91D8-4574-BCAD-B5BC9FDCDBEF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>RentCarForm</RootNamespace>
-    <AssemblyName>RentCarForm</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>PickDriveForm</RootNamespace>
+    <AssemblyName>PickDriveForm</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -80,9 +80,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CassandraDataLayer\CassandraDataLayer.csproj">
-      <Project>{1771d94e-744e-40f2-9c83-5754817707a6}</Project>
-      <Name>CassandraDataLayer</Name>
+    <ProjectReference Include="..\DataLayerCassandra\DataLayerCassandra.csproj">
+      <Project>{ba8123fb-abd5-43c5-93e9-882f8744dc89}</Project>
+      <Name>DataLayerCassandra</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RentCarForm.Properties
+namespace PickDriveForm.Properties
 {
 
 

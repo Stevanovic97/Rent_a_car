@@ -1,11 +1,11 @@
-﻿using Cassandra;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cassandra;
 
-namespace CassandraDataLayer
+namespace DataLayerCassandra
 {
     public static class SessionManager
     {
@@ -16,9 +16,10 @@ namespace CassandraDataLayer
             if (session == null)
             {
                 Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").Build();
-                session = cluster.Connect("car");
+                session = cluster.Connect("pickdrive");
             }
             return session;
+            
         }
     }
 }
