@@ -11,5 +11,6 @@ namespace DataLayerCassandra.Entiteti
         public string jmbg { get; set; }
         public string ime_client { get; set; }
         public string prezime_client { get; set; }
+      
     }
 }

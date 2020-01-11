@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,7 +31,7 @@ namespace PickDriveForm
             else if (model_vozila_txt.TextLength == 0)
                 MessageBox.Show("Unesite model vozila koje zelite dodati u bazu!");
             else {
-                DataProvider.AddVozila(id_vozila_txt.Text, tip_txt.Text, naziv_vozila_txt.Text, model_vozila_txt.Text);
+                DataProvider.AddVozila(id_vozila_txt.Text,"Slobodno", tip_txt.Text, naziv_vozila_txt.Text, model_vozila_txt.Text);
                 MessageBox.Show(tip_txt.Text + " uspesno dodat u bazu!");
             }
         }

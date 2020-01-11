@@ -48,6 +48,7 @@ namespace DataLayerCassandra
                 Vozila vozila = new Vozila();
                 vozila.id_vozila = v["id"] != null ? v["id"].ToString() : string.Empty;
                 vozila.tip = v["tip"] != null ? v["tip"].ToString() : string.Empty;
+                vozila.isrent = v["isrent"] != null ? v["isrent"].ToString() : string.Empty;
                 vozila.naziv = v["naziv"] != null ? v["naziv"].ToString() : string.Empty;
                 vozila.model = v["model"] != null ? v["model"].ToString() : string.Empty;
                 vozilas.Add(vozila);
@@ -55,14 +56,37 @@ namespace DataLayerCassandra
 
             return vozilas;
         }
-        public static void AddVozila(string id, string tip, string naziv, string model)
+        public static List<Vozila> GetVozilaTip(string tip)
+        {
+            ISession session = SessionManager.GetSession();
+            List<Vozila> vozilas = new List<Vozila>();
+
+            if (session == null)
+                return null;
+
+            var vozilasData = session.Execute("select * from \"vozila\" where \"tip\"='" + tip+ "' ALLOW FILTERING");
+
+            foreach (var v in vozilasData)
+            {
+                Vozila vozila = new Vozila();
+                vozila.id_vozila = v["id"] != null ? v["id"].ToString() : string.Empty;
+                vozila.tip = v["tip"] != null ? v["tip"].ToString() : string.Empty;
+                vozila.isrent = v["isrent"] != null ? v["isrent"].ToString() : string.Empty;
+                vozila.naziv = v["naziv"] != null ? v["naziv"].ToString() : string.Empty;
+                vozila.model = v["model"] != null ? v["model"].ToString() : string.Empty;
+                vozilas.Add(vozila);
+            }
+
+            return vozilas;
+        }
+        public static void AddVozila(string id, string isrent,string tip, string naziv, string model)
         {
             ISession session = SessionManager.GetSession();
 
             if (session == null)
                 return;
 
-            RowSet vozilaData = session.Execute("insert into \"vozila\" (id,tip,naziv,model) values ('"+id+"','"+tip+"', '"+naziv+"','"+model+"')"); 
+            RowSet vozilaData = session.Execute("insert into \"vozila\" (id,isrent,tip,naziv,model) values ('"+id+"','"+isrent+"','"+tip+"', '"+naziv+"','"+model+"')"); 
         }
         public static void DeleteVozila(string id)
         {
@@ -123,7 +147,7 @@ namespace DataLayerCassandra
             if (session == null)
                 return;
 
-            RowSet clientData = session.Execute("insert into \"client\" (jmbg,ime,prezime) values ('"+jmbg+"','"+ime+"','"+prezime+"'");
+            RowSet clientData = session.Execute("insert into \"client\" (jmbg,ime,prezime) values ('"+jmbg+"','"+ime+"','"+prezime+"')");
         }
         public static void DeleteClient(string jmbg)
         {
@@ -194,6 +218,83 @@ namespace DataLayerCassandra
                 return;
 
             RowSet radnikData = session.Execute("delete from \"radnik\" where \"id\"='" + id + "'");
+        }
+        #endregion
+
+        #region RentVozilo
+        public static RentVozilo GetRentVozilo(string id)
+        {
+            ISession session = SessionManager.GetSession();
+            RentVozilo rentVozilo = new RentVozilo();
+
+            if (session == null)
+                return null;
+
+            Row rentData = session.Execute("select * from \"rentvozila\" where \"id\"='"+id+"'").FirstOrDefault();
+            if(rentData!=null)
+            {
+                rentVozilo.id_rent = rentData["id_rent"] != null ? rentData["id_rent"].ToString() : string.Empty;
+                rentVozilo.jmbg= rentData["jmbg"] != null ? rentData["jmbg"].ToString() : string.Empty;
+                rentVozilo.id_vozila= rentData["id_vozila"] != null ? rentData["id_vozila"].ToString() : string.Empty;
+                
+                rentVozilo.date_rent = rentData["date_rent"] != null ? rentData["date_rent"].ToString() : string.Empty;
+                rentVozilo.date_to_return = rentData["date_to_return"] != null ? rentData["date_to_return"].ToString() : string.Empty;
+            }
+            return rentVozilo;
+        }
+
+        public static List<RentVozilo> GetRentVozilos()
+        {
+            ISession session = SessionManager.GetSession();
+            List<RentVozilo> vozilas = new List<RentVozilo>();
+
+            if (session == null)
+                return null;
+
+            var vozilasData = session.Execute("select * from \"rentvozila\"");
+
+            foreach (var v in vozilasData)
+            {
+                RentVozilo vozila = new RentVozilo();
+                vozila.id_rent= v["id_rent"] != null ? v["id_rent"].ToString() : string.Empty;
+               
+                vozila.jmbg = v["jmbg"] != null ? v["jmbg"].ToString() : string.Empty;
+                vozila.id_vozila = v["id_vozila"] != null ? v["id_vozila"].ToString() : string.Empty;
+                vozilas.Add(vozila);
+            }
+
+            return vozilas;
+        }
+
+        public static void addRent(string id_rent, string id_vozila, string jmbg)
+        {
+            ISession session = SessionManager.GetSession();
+            if (session == null)
+                return;
+            DateTime dt = DateTime.Now;
+            RowSet clientData = session.Execute("insert into \"rentvozila\" (date_rent, date_to_return, id_rent, id_vozila, jmbg) values ('" + dt.ToString() + "','" + "" + "','" + id_rent + "','" + id_vozila + "','" + jmbg + "')");
+        }
+
+        public static void removeRent(string id_vozila)
+        {
+            ISession session = SessionManager.GetSession();
+            if (session == null)
+                return;
+
+            var rv = session.Execute("select id_rent from \"rentvozila\" where \"id_vozila\" ='" + id_vozila + "'  ALLOW FILTERING");
+            session.Execute("delete from \"rentvozila\" where \"id_rent\" ='" + rv + "'");
+        }
+
+        public static void updateState(string stanje, string id)
+        {
+            ISession session = SessionManager.GetSession();
+
+            if (session == null)
+                return;
+
+            Vozila v = DataProvider.GetVozila(id);
+            session.Execute("update vozila set \"isrent\"='" + stanje + "'where \"id\"='" + id + "'");
+
         }
         #endregion
     }

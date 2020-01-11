@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DataLayerCassandra.Entiteti
 {
-    public class Vozila
+    public class RentVozilo
     {
+        public string id_rent { get; set; }
+        public string jmbg { get; set; }
         public string id_vozila { get; set; }
-        public string tip { get; set; }
-        public string naziv { get; set; }
-        public string model { get; set; }
-        public string isrent { get; set; }
+        public string date_rent { get; set; }
+        public string date_to_return { get; set; }
     }
 }
