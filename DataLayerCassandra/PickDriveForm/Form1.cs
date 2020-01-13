@@ -100,7 +100,7 @@ namespace PickDriveForm
 			foreach(Client klijent in klijenti)
 			{
 				string rent = DataProvider.GetDateToReturn(klijent.jmbg);
-				MessageBox.Show("Jmbg: "+ klijent.jmbg + " Ime: " + klijent.ime_client + " Prezime: " + klijent.prezime_client + " Datum vracanja vozila: " + rent);
+				MessageBox.Show("Jmbg: "+ klijent.jmbg + "\nIme: " + klijent.ime_client + "\nPrezime: " + klijent.prezime_client + "\nDatum vracanja vozila: " + rent);
 			}
 		}
 	}
