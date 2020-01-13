@@ -27,5 +27,10 @@ namespace DataLayerCassandra
         {
             return jmbgTextBox.Text;
         }
+
+		public string brojDanaIznajmljivanja()
+		{
+			return brojDanaTextBox.Text;
+		}
     }
 }

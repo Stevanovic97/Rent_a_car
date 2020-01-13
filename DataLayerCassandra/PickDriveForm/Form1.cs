@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,7 +30,7 @@ namespace PickDriveForm
             else if (model_vozila_txt.TextLength == 0)
                 MessageBox.Show("Unesite model vozila koje zelite dodati u bazu!");
             else {
-                DataProvider.AddVozila(id_vozila_txt.Text,"Slobodno", tip_txt.Text, naziv_vozila_txt.Text, model_vozila_txt.Text);
+                DataProvider.AddVozilo(id_vozila_txt.Text,"Slobodno", tip_txt.Text, naziv_vozila_txt.Text, model_vozila_txt.Text);
                 MessageBox.Show(tip_txt.Text + " uspesno dodat u bazu!");
             }
         }
@@ -41,22 +40,22 @@ namespace PickDriveForm
             if (id_vozilaDel_txt.TextLength == 0)
                 MessageBox.Show("Unesite id vozila koje zelite obrisati iz baze!");
             else {
-                DataProvider.DeleteVozila(id_vozilaDel_txt.Text);
+                DataProvider.DeleteVozilo(id_vozilaDel_txt.Text);
                 MessageBox.Show("Vozilo sa rednim brojem:" + id_vozilaDel_txt.Text + " je uspesno obrisano iz baze!");
             }
         }
 
         private void GetVozila_Click(object sender, EventArgs e)
         {
-            List<Vozila> vozilas = DataProvider.GetVozilas();
+            List<Vozila> vozila = DataProvider.GetVozila();
 
-            foreach (Vozila v in vozilas)
+            foreach (Vozila v in vozila)
                 MessageBox.Show(v.id_vozila + ": " + v.tip + ":\n" + v.naziv + "  " + v.model);
         }
 
         private void GetRadnik_Click(object sender, EventArgs e)
         {
-            List<Radnik> radniks = DataProvider.GetRadniks();
+            List<Radnik> radniks = DataProvider.GetRadnici();
 
             foreach (Radnik r in radniks)
                 MessageBox.Show(r.id_radnika + ": " + r.ime_radnika + "  " + r.prezime_radnika);
@@ -76,7 +75,6 @@ namespace PickDriveForm
                 MessageBox.Show("Radnik:  " + ime_radnik_txt.Text + "  " + prezime_radnik_txt.Text + "  uspesno dodat u bazu!");
 
             }
-
         }
 
         private void DeleteRadnik_Click(object sender, EventArgs e)
@@ -95,5 +93,15 @@ namespace PickDriveForm
             rent.ShowDialog();
 
         }
-    }
+
+		private void notReturnedBtn_Click(object sender, EventArgs e)
+		{
+			List<Client> klijenti = DataProvider.GetClients();
+			foreach(Client klijent in klijenti)
+			{
+				string rent = DataProvider.GetDateToReturn(klijent.jmbg);
+				MessageBox.Show("Jmbg: "+ klijent.jmbg + " Ime: " + klijent.ime_client + " Prezime: " + klijent.prezime_client + " Datum vracanja vozila: " + rent);
+			}
+		}
+	}
 }

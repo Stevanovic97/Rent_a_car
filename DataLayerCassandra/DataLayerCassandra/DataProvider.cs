@@ -12,59 +12,63 @@ namespace DataLayerCassandra
     public static class DataProvider
     {
         #region Vozila
-        public static Vozila GetVozila(string id_vozila)
+        public static Vozila GetVozilo(string id_vozila)
         {
             ISession session = SessionManager.GetSession();
-            Vozila vozila = new Vozila();
 
             if (session == null)
                 return null;
 
-            Row vozilaData = session.Execute("select * from \"vozila\" where \"id\"='" + id_vozila + "'").FirstOrDefault();
+			Vozila vozila = new Vozila();
+			Row vozilaData = session.Execute("select * from \"vozila\" where \"id\"='" + id_vozila + "'").FirstOrDefault();
             if (vozilaData != null)
             {
                 vozila.id_vozila = vozilaData["id"] != null ? vozilaData["id"].ToString() : string.Empty;
                 vozila.tip = vozilaData["tip"] != null ? vozilaData["tip"].ToString() : string.Empty;
                 vozila.naziv = vozilaData["naziv"] != null ? vozilaData["naziv"].ToString() : string.Empty;
                 vozila.model = vozilaData["model"] != null ? vozilaData["model"].ToString() : string.Empty;
-
             }
 
             return vozila;
-        
         }
-        public static List<Vozila> GetVozilas()
+
+        public static List<Vozila> GetVozila()
         {
             ISession session = SessionManager.GetSession();
-            List<Vozila> vozilas = new List<Vozila>();
 
             if (session == null)
                 return null;
 
-            var vozilasData = session.Execute("select * from \"vozila\"");
+			List<Vozila> vehicles = new List<Vozila>();
+
+			var vozilasData = session.Execute("select * from \"vozila\"");
 
             foreach(var v in vozilasData)
             {
-                Vozila vozila = new Vozila();
-                vozila.id_vozila = v["id"] != null ? v["id"].ToString() : string.Empty;
-                vozila.tip = v["tip"] != null ? v["tip"].ToString() : string.Empty;
-                vozila.isrent = v["isrent"] != null ? v["isrent"].ToString() : string.Empty;
-                vozila.naziv = v["naziv"] != null ? v["naziv"].ToString() : string.Empty;
-                vozila.model = v["model"] != null ? v["model"].ToString() : string.Empty;
-                vozilas.Add(vozila);
+				Vozila vozila = new Vozila
+				{
+					id_vozila = v["id"] != null ? v["id"].ToString() : string.Empty,
+					tip = v["tip"] != null ? v["tip"].ToString() : string.Empty,
+					isrent = v["isrent"] != null ? v["isrent"].ToString() : string.Empty,
+					naziv = v["naziv"] != null ? v["naziv"].ToString() : string.Empty,
+					model = v["model"] != null ? v["model"].ToString() : string.Empty
+				};
+				vehicles.Add(vozila);
             }
 
-            return vozilas;
+            return vehicles;
         }
+
         public static List<Vozila> GetVozilaTip(string tip)
         {
             ISession session = SessionManager.GetSession();
-            List<Vozila> vozilas = new List<Vozila>();
 
             if (session == null)
                 return null;
 
-            var vozilasData = session.Execute("select * from \"vozila\" where \"tip\"='" + tip+ "' ALLOW FILTERING");
+			List<Vozila> vozilas = new List<Vozila>();
+
+			var vozilasData = session.Execute("select * from \"vozila\" where \"tip\"='" + tip+ "' ALLOW FILTERING");
 
             foreach (var v in vozilasData)
             {
@@ -79,23 +83,50 @@ namespace DataLayerCassandra
 
             return vozilas;
         }
-        public static void AddVozila(string id, string isrent,string tip, string naziv, string model)
+
+		//public static List<Vozila> getVehiclesByRent(string freeOrNot)
+		//{
+		//	ISession session = SessionManager.GetSession();
+
+		//	if (session == null)
+		//		return null;
+
+		//	List<Vozila> vozilas = new List<Vozila>();
+
+		//	var vozilasData = session.Execute("select * from \"vozila\" where \"isrent\"='" + freeOrNot + "' ALLOW FILTERING");
+
+		//	foreach (var v in vozilasData)
+		//	{
+		//		Vozila vozila = new Vozila();
+		//		vozila.id_vozila = v["id"] != null ? v["id"].ToString() : string.Empty;
+		//		vozila.tip = v["tip"] != null ? v["tip"].ToString() : string.Empty;
+		//		vozila.isrent = v["isrent"] != null ? v["isrent"].ToString() : string.Empty;
+		//		vozila.naziv = v["naziv"] != null ? v["naziv"].ToString() : string.Empty;
+		//		vozila.model = v["model"] != null ? v["model"].ToString() : string.Empty;
+		//		vozilas.Add(vozila);
+		//	}
+
+		//	return vozilas;
+		//}
+
+        public static void AddVozilo(string id, string isrent,string tip, string naziv, string model)
         {
             ISession session = SessionManager.GetSession();
 
             if (session == null)
                 return;
 
-            RowSet vozilaData = session.Execute("insert into \"vozila\" (id,isrent,tip,naziv,model) values ('"+id+"','"+isrent+"','"+tip+"', '"+naziv+"','"+model+"')"); 
+            session.Execute("insert into \"vozila\" (id,isrent,tip,naziv,model) values ('"+id+"','"+isrent+"','"+tip+"', '"+naziv+"','"+model+"')"); 
         }
-        public static void DeleteVozila(string id)
+
+        public static void DeleteVozilo(string id)
         {
             ISession session = SessionManager.GetSession();
 
             if (session == null)
                 return;
 
-            RowSet vozilaData = session.Execute("delete from \"vozila\" where \"id\" ='"+id+"'");
+            session.Execute("delete from \"vozila\" where \"id\" ='"+id+"'");
         }
         #endregion
 
@@ -103,12 +134,13 @@ namespace DataLayerCassandra
         public static Client GetClient(string jmbg)
         {
             ISession session = SessionManager.GetSession();
-            Client client = new Client();
 
             if (session == null)
                 return null;
 
-            Row clientData = session.Execute("select * from \"client\" where \"jmbg\"='"+jmbg+"'").FirstOrDefault();
+			Client client = new Client();
+
+			Row clientData = session.Execute("select * from \"client\" where \"jmbg\"='"+jmbg+"'").FirstOrDefault();
 
             if (clientData != null)
             {
@@ -119,27 +151,32 @@ namespace DataLayerCassandra
 
             return client;
         }
+
         public static List<Client> GetClients()
         {
             ISession session = SessionManager.GetSession();
-            List<Client> clients = new List<Client>();
 
             if (session == null)
                 return null;
 
-            var clientsData = session.Execute("select * from \"client\"");
+			List<Client> clients = new List<Client>();
+
+			var clientsData = session.Execute("select * from \"client\"");
 
             foreach (var c in clientsData)
             {
-                Client client = new Client();
-                client.jmbg = c["jmbg"] != null ? c["jmbg"].ToString() : string.Empty;
-                client.ime_client = c["ime"] != null ? c["ime"].ToString() : string.Empty;
-                client.prezime_client = c["prezime"] != null ? c["prezime"].ToString() : string.Empty;
-                clients.Add(client);
+				Client client = new Client
+				{
+					jmbg = c["jmbg"] != null ? c["jmbg"].ToString() : string.Empty,
+					ime_client = c["ime"] != null ? c["ime"].ToString() : string.Empty,
+					prezime_client = c["prezime"] != null ? c["prezime"].ToString() : string.Empty
+				};
+				clients.Add(client);
             }
 
             return clients;
         }
+
         public static void AddClient(string jmbg, string ime, string prezime)
         {
             ISession session = SessionManager.GetSession();
@@ -147,8 +184,9 @@ namespace DataLayerCassandra
             if (session == null)
                 return;
 
-            RowSet clientData = session.Execute("insert into \"client\" (jmbg,ime,prezime) values ('"+jmbg+"','"+ime+"','"+prezime+"')");
+            session.Execute("insert into \"client\" (jmbg,ime,prezime) values ('"+jmbg+"','"+ime+"','"+prezime+"')");
         }
+
         public static void DeleteClient(string jmbg)
         {
             ISession session = SessionManager.GetSession();
@@ -156,7 +194,7 @@ namespace DataLayerCassandra
             if (session == null)
                 return;
 
-            RowSet clientData = session.Execute("delete from \"client\" where \"jmbg\"='"+jmbg+"'");
+            session.Execute("delete from \"client\" where \"jmbg\"='"+jmbg+"'");
         }
         #endregion
 
@@ -164,12 +202,13 @@ namespace DataLayerCassandra
         public static Radnik GetRadnik(string id)
         {
             ISession session = SessionManager.GetSession();
-            Radnik radnik = new Radnik();
 
             if (session == null)
                 return null;
 
-            Row radnikData = session.Execute("select * from \"radnik\" where \"id\"='" + id + "'").FirstOrDefault();
+			Radnik radnik = new Radnik();
+
+			Row radnikData = session.Execute("select * from \"radnik\" where \"id\"='" + id + "'").FirstOrDefault();
 
             if (radnikData != null)
             {
@@ -180,27 +219,32 @@ namespace DataLayerCassandra
 
             return radnik;
         }
-        public static List<Radnik> GetRadniks()
+
+        public static List<Radnik> GetRadnici()
         {
             ISession session = SessionManager.GetSession();
-            List<Radnik> radniks = new List<Radnik>();
 
             if (session == null)
                 return null;
 
-            var radniksData = session.Execute("select * from \"radnik\"");
+			List<Radnik> radniks = new List<Radnik>();
+
+			var radniksData = session.Execute("select * from \"radnik\"");
 
             foreach (var c in radniksData)
             {
-                Radnik radnik = new Radnik();
-                radnik.id_radnika = c["id"] != null ? c["id"].ToString() : string.Empty;
-                radnik.ime_radnika = c["ime"] != null ? c["ime"].ToString() : string.Empty;
-                radnik.prezime_radnika = c["prezime"] != null ? c["prezime"].ToString() : string.Empty;
-                radniks.Add(radnik);
+				Radnik radnik = new Radnik
+				{
+					id_radnika = c["id"] != null ? c["id"].ToString() : string.Empty,
+					ime_radnika = c["ime"] != null ? c["ime"].ToString() : string.Empty,
+					prezime_radnika = c["prezime"] != null ? c["prezime"].ToString() : string.Empty
+				};
+				radniks.Add(radnik);
             }
 
             return radniks;
         }
+
         public static void AddRadnik(string id, string ime, string prezime)
         {
             ISession session = SessionManager.GetSession();
@@ -222,36 +266,35 @@ namespace DataLayerCassandra
         #endregion
 
         #region RentVozilo
-        public static RentVozilo GetRentVozilo(string id)
+        public static string GetDateToReturn(string jmbg)
         {
             ISession session = SessionManager.GetSession();
-            RentVozilo rentVozilo = new RentVozilo();
 
             if (session == null)
                 return null;
 
-            Row rentData = session.Execute("select * from \"rentvozila\" where \"id\"='"+id+"'").FirstOrDefault();
-            if(rentData!=null)
+			Row rentData = session.Execute("select date_to_return from \"rentvozilo\" where \"jmbg\"='"+jmbg+ "' ALLOW FILTERING").FirstOrDefault();
+
+			string date_to_return = ""; 
+
+			if (rentData!=null)
             {
-                rentVozilo.id_rent = rentData["id_rent"] != null ? rentData["id_rent"].ToString() : string.Empty;
-                rentVozilo.jmbg= rentData["jmbg"] != null ? rentData["jmbg"].ToString() : string.Empty;
-                rentVozilo.id_vozila= rentData["id_vozila"] != null ? rentData["id_vozila"].ToString() : string.Empty;
-                
-                rentVozilo.date_rent = rentData["date_rent"] != null ? rentData["date_rent"].ToString() : string.Empty;
-                rentVozilo.date_to_return = rentData["date_to_return"] != null ? rentData["date_to_return"].ToString() : string.Empty;
+                date_to_return = rentData["date_to_return"] != null ? rentData["date_to_return"].ToString() : string.Empty;
             }
-            return rentVozilo;
+
+            return date_to_return;
         }
 
-        public static List<RentVozilo> GetRentVozilos()
+        public static List<RentVozilo> GetRents()
         {
             ISession session = SessionManager.GetSession();
-            List<RentVozilo> vozilas = new List<RentVozilo>();
 
             if (session == null)
                 return null;
 
-            var vozilasData = session.Execute("select * from \"rentvozila\"");
+			List<RentVozilo> vehicles = new List<RentVozilo>();
+
+			var vozilasData = session.Execute("select * from \"rentvozila\"");
 
             foreach (var v in vozilasData)
             {
@@ -260,19 +303,22 @@ namespace DataLayerCassandra
                
                 vozila.jmbg = v["jmbg"] != null ? v["jmbg"].ToString() : string.Empty;
                 vozila.id_vozila = v["id_vozila"] != null ? v["id_vozila"].ToString() : string.Empty;
-                vozilas.Add(vozila);
+				vehicles.Add(vozila);
             }
 
-            return vozilas;
+            return vehicles;
         }
 
-        public static void addRent(string id_rent, string id_vozila, string jmbg)
+        public static void addRent(string id_rent, string id_vozila, string jmbg, int brojDana)
         {
             ISession session = SessionManager.GetSession();
+
             if (session == null)
                 return;
+
             DateTime dt = DateTime.Now;
-            RowSet clientData = session.Execute("insert into \"rentvozila\" (date_rent, date_to_return, id_rent, id_vozila, jmbg) values ('" + dt.ToString() + "','" + "" + "','" + id_rent + "','" + id_vozila + "','" + jmbg + "')");
+			DateTime dtToReturn = dt.AddDays(brojDana);
+            session.Execute("insert into \"rentvozilo\" (date_rent, date_to_return, id_rent, id_vozila, jmbg) values ('" + dt.ToString() + "','" + dtToReturn + "','" + id_rent + "','" + id_vozila + "','" + jmbg + "')");
         }
 
         public static void removeRent(string id_vozila)
@@ -281,8 +327,13 @@ namespace DataLayerCassandra
             if (session == null)
                 return;
 
-            var rv = session.Execute("select id_rent from \"rentvozila\" where \"id_vozila\" ='" + id_vozila + "'  ALLOW FILTERING");
-            session.Execute("delete from \"rentvozila\" where \"id_rent\" ='" + rv + "'");
+            RowSet rv = session.Execute("select * from \"rentvozilo\" where \"id_vozila\" ='" + id_vozila + "'ALLOW FILTERING");
+			var rows = rv.GetRows().ToList(); 
+			foreach (Row row in rows)
+			{
+				session.Execute("delete from \"rentvozilo\" where \"id_rent\" ='" + row["id_rent"].ToString() + "'");
+				session.Execute("delete from \"client\" where \"jmbg\" ='" + row["jmbg"].ToString() + "'");
+			}
         }
 
         public static void updateState(string stanje, string id)
@@ -292,7 +343,7 @@ namespace DataLayerCassandra
             if (session == null)
                 return;
 
-            Vozila v = DataProvider.GetVozila(id);
+            Vozila v = DataProvider.GetVozilo(id);
             session.Execute("update vozila set \"isrent\"='" + stanje + "'where \"id\"='" + id + "'");
 
         }

@@ -16,7 +16,7 @@ namespace DataLayerCassandra
             if (session == null)
             {
                 Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").Build();
-                session = cluster.Connect("pickdrive");
+                session = cluster.Connect("rentacar");
             }
             return session;
             
